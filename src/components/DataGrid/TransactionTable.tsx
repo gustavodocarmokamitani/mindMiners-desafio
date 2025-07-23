@@ -1,40 +1,76 @@
 import { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import type { GridColDef, GridPaginationModel } from "@mui/x-data-grid";
+import { TransactionTableColumns } from "./TransactionTableColumns";
+import type { GridPaginationModel } from "@mui/x-data-grid";
 import type { Operation } from "../../models/Operation";
-
-const columns: GridColDef[] = [
-  { field: "typeOption", headerName: "Tipo", width: 130 },
-  { field: "date", headerName: "Data", width: 130 },
-  { field: "quantity", headerName: "Quantidade", type: "number", width: 110 },
-  { field: "unitPrice", headerName: "Preço (R$)", type: "number", width: 130 },
-  {
-    field: "tradingFee",
-    headerName: "Taxa de corretagem (R$)",
-    type: "number",
-    width: 200,
-  },
-];
 
 interface TransactionTableProps {
   data: Operation[];
+  onSelectionChange?: (selectedIds: number[]) => void;
 }
 
-export default function TransactionTable({ data }: TransactionTableProps) {
+export default function TransactionTable({
+  data,
+  onSelectionChange,
+}: TransactionTableProps) {
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: 0,
     pageSize: 5,
   });
 
   return (
-    <div style={{ height: 400, width: "100%", boxShadow: " 0 4px 12px rgba(0, 0, 0, 0.2)" }}>
+    <div
+      style={{
+        height: 400,
+        width: "100%",
+        borderRadius: "8px",
+        boxShadow: " 0 4px 12px rgba(0, 0, 0, 0.2)",
+      }}
+    >
       <DataGrid
+        getRowId={(row: Operation) => row.id}
         rows={data}
-        columns={columns}
+        columns={TransactionTableColumns}
         pagination
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
         pageSizeOptions={[5, 10, 20]}
+        disableColumnResize={true}
+        checkboxSelection
+        onRowSelectionModelChange={(newSelectionModel) => {
+          let selectedIds: number[] = [];
+          if (Array.isArray(newSelectionModel)) {
+            selectedIds = newSelectionModel.map((id) => Number(id));
+          } else {
+            if (newSelectionModel.type === "include") {
+              selectedIds = Array.from(newSelectionModel.ids).map((id) =>
+                Number(id)
+              );
+            } else if (newSelectionModel.type === "exclude") {
+              const allIds = data.map((row) => row.id);
+              selectedIds = allIds.filter(
+                (id) => !newSelectionModel.ids.has(id)
+              );
+            }
+          }
+
+          onSelectionChange?.(selectedIds);
+        }}
+        rowHeight={57}
+        sortModel={[
+          {
+            field: "id",
+            sort: "desc",
+          },
+        ]}
+        sx={{
+          border: "1px solid #e0e0e0",
+          borderRadius: "8px",
+          padding: "0 0.8rem",
+          "& .MuiDataGrid-filler": {
+            display: "none",
+          },
+        }}
       />
     </div>
   );
