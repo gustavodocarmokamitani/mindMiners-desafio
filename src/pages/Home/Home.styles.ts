@@ -12,7 +12,7 @@ export const FormWrapper = styled.div`
   padding: 2rem 0;
   margin: 0;
   border: 1px solid #d6d6d6ff;
-  border-radius: 3px;
+  border-radius: 8px;
   background: #fff;
   
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -28,5 +28,5 @@ export const ButtonGroup = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1rem;
+  margin-top: 2rem;
 `;

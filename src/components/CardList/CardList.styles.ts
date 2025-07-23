@@ -8,18 +8,20 @@ export const CardContainer = styled.div`
   overflow-y: auto;
   margin-bottom: 1rem;
   border-radius: 8px;
-  padding: 1rem 1rem;
+  padding: 1rem 0rem;
+  width: 100%;
 `;
 
 export const Card = styled.div`
+  position: relative;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 5px;
   padding: 1.5rem 2rem;
+  margin: 0.5rem 1rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
@@ -34,7 +36,6 @@ export const Card = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     min-width: 150px;
-    flex: 1;
   }
 
   p {
@@ -54,6 +55,7 @@ export const PaginationContainer = styled.div`
   align-items: center;
   gap: 1rem;
   margin-bottom: 5rem;
+  width: 100%;
 `;
 
 export const PageButton = styled.button`
