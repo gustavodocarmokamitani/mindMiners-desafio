@@ -1,7 +1,7 @@
 export interface Operation {
   id: number;
   date: string;
-  typeOption: number;
+  typeOperation: number;
   unitPrice: number;
   quantity: number;
   tradingFee: number;
