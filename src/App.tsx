@@ -1,10 +1,11 @@
 import "react-toastify/dist/ReactToastify.css";
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import "react-confirm-alert/src/react-confirm-alert.css";
 import { ToastContainer } from "react-toastify";
 import Home from "./pages/Home/Home";
 // import Dashboard from "./pages/Dashboar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
+import { Footer } from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<Home />} />
         {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
       </Routes>
+      <Footer />
     </Router>
   );
 }

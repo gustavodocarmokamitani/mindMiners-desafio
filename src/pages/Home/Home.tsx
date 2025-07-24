@@ -9,7 +9,6 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Button } from "../../components/Button/Button";
-import { Footer } from "../../components/Footer/Footer";
 
 function Home() {
   const isMobile = useIsMobile();
@@ -240,7 +239,6 @@ function Home() {
           ) : null}
         </S.ContainerFlex>
       </S.Container>
-      <Footer />
     </>
   );
 }
