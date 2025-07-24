@@ -10,7 +10,7 @@ export const Select = ({ options, value, onChange, ...rest }: SelectProps) => {
   return (
     <SelectWrapper>
       <StyledSelect value={value} onChange={onChange} {...rest}>
-        <option value={0} disabled>Tipo da operação</option>
+        <option value="" disabled>Selecione...</option>
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}

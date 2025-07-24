@@ -5,4 +5,5 @@ export interface Operation {
   unitPrice: number;
   quantity: number;
   tradingFee: number;
+  symbol: string;
 }
