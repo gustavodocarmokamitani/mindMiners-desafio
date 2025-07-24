@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const FormWrapper = styled.div`
   width: 100%;
   max-width: 300px;
-  height: 485px;
+  height: 565px;
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
