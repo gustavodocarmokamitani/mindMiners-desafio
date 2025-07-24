@@ -77,3 +77,57 @@ export const PageButton = styled.button`
     cursor: not-allowed;
   }
 `;
+
+export const EditButton = styled.span`
+  position: absolute;
+  right: 40px;
+  top: -15px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  border-left: 1px solid #e5e7eb;
+  border-radius: 50px 0 0 50px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #f38911;
+  font-size: 1.3rem;
+  padding: 0 0.5rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    right: 50px;
+  }  
+`;
+
+export const DeleteButton = styled.span`
+  position: absolute;
+  right: 5px;
+  top: -15px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  border-radius: 0 50px 50px 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #e63946;
+  font-size: 1.3rem;
+  padding: 0 0.5rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    right: -5px;
+  }
+`;

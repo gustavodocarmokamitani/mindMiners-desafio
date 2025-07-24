@@ -8,23 +8,19 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
-import { FiTrash } from "react-icons/fi";
+import { FiEdit2, FiTrash } from "react-icons/fi";
 import { formatToBRL } from "../../utils/formatters";
 import type { Operation } from "../../models/Operation";
-import {
-  CardContainer,
-  Card,
-  PaginationContainer,
-  PageButton,
-} from "./CardList.styles";
+import * as S from "./CardList.styles";
 
 interface CardListProps {
   data: Operation[];
   onDelete: (ids: number) => void;
+  onEdit: (id: number) => void;
 }
 
-export const CardList = ({ data, onDelete }: CardListProps) => {
-  const ITEMS_PER_PAGE = 3;
+export const CardList = ({ data, onDelete, onEdit }: CardListProps) => {
+  const ITEMS_PER_PAGE = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
   const sortedData = [...data].sort((a, b) => b.id - a.id);
@@ -38,31 +34,16 @@ export const CardList = ({ data, onDelete }: CardListProps) => {
 
   return (
     <>
-      <CardContainer>
+      <S.CardContainer>
         {paginatedData.map((item) => (
-          <Card key={item.id}>
-            <span
-              onClick={() => onDelete(item.id)}
-              style={{
-                position: "absolute",
-                right: "-10px",
-                top: "-15px",
-                background: "#ffffff",
-                borderRadius: "50px",
-                width: "30px",
-                height: "30px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                cursor: "pointer",
-                color: "#e63946",
-                fontSize: "1.3rem",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
-              }}
-              title="Apagar operação"
-            >
+          <S.Card key={item.id}>
+            <S.EditButton onClick={() => onEdit(item.id)} title="Editar operação">
+              <FiEdit2 />
+            </S.EditButton>
+
+            <S.DeleteButton onClick={() => onDelete(item.id)} title="Apagar operação">
               <FiTrash />
-            </span>
+            </S.DeleteButton>
             <div className="card-column">
               <p>
                 <FaCalendarAlt
@@ -97,32 +78,32 @@ export const CardList = ({ data, onDelete }: CardListProps) => {
                 <strong>Corretagem:</strong> {formatToBRL(item.tradingFee)}
               </p>
             </div>
-          </Card>
+          </S.Card>
         ))}
-      </CardContainer>
+      </S.CardContainer>
 
       {totalPages > 1 && (
-        <PaginationContainer>
-          <PageButton
+        <S.PaginationContainer>
+          <S.PageButton
             disabled={currentPage === 1}
             onClick={() => setCurrentPage(currentPage - 1)}
           >
             <FaChevronLeft style={{ marginRight: "5px" }} />
             Anterior
-          </PageButton>
+          </S.PageButton>
 
           <span style={{ margin: "0 1rem" }}>
             Página {currentPage} de {totalPages}
           </span>
 
-          <PageButton
+          <S.PageButton
             disabled={currentPage === totalPages}
             onClick={() => setCurrentPage(currentPage + 1)}
           >
             Próxima
             <FaChevronRight style={{ marginLeft: "5px" }} />
-          </PageButton>
-        </PaginationContainer>
+          </S.PageButton>
+        </S.PaginationContainer>
       )}
     </>
   );
