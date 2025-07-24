@@ -4,6 +4,15 @@ import { formatToBRL } from "../../utils/formatters";
 export const TransactionTableColumns: GridColDef[] = [
   { field: "id", headerName: "Id", width: 90 },
   {
+    field: "date",
+    headerName: "Data",
+    width: 110,
+    valueFormatter: (params) => {
+      const date = params;
+      return new Date(date).toLocaleDateString("pt-BR");
+    },
+  },
+  {
     field: "typeOperation",
     headerName: "Tipo",
     width: 100,
@@ -18,16 +27,6 @@ export const TransactionTableColumns: GridColDef[] = [
     },
   },
   {
-    field: "date",
-    headerName: "Data",
-    width: 110,
-    valueFormatter: (params) => {
-      const date = params;
-      return new Date(date).toLocaleDateString("pt-BR");
-    },
-  },
-  { field: "quantity", headerName: "Qtd.", type: "number", width: 100 },
-  {
     field: "unitPrice",
     headerName: "Preço (R$)",
     type: "number",
@@ -36,6 +35,7 @@ export const TransactionTableColumns: GridColDef[] = [
       return formatToBRL(Number(params));
     },
   },
+  { field: "quantity", headerName: "Qtd.", type: "number", width: 100 },
   {
     field: "tradingFee",
     headerName: "Taxa de corretagem (R$)",
