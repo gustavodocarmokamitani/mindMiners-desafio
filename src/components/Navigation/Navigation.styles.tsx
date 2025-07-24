@@ -14,6 +14,7 @@ export const Nav = styled.div`
   justify-content: center;
   gap: 5rem;
   padding: .6rem;
+  border-bottom: 1px solid #cacaca;
 `;
 
 export const ButtonNav = styled.span`
