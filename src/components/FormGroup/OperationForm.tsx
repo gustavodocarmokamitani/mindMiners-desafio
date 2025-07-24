@@ -10,6 +10,7 @@ import type {
   UseFormWatch,
 } from "react-hook-form";
 import type { Operation } from "../../models/Operation";
+import type { Option } from "../../models/Option";
 import * as S from "../../pages/Home/Home.styles";
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
   isSaving?: boolean;
   editingId: number | null;
   onCancelEdit?: () => void;
+  symbolOption: Option[];
 };
 
 const OperationForm = ({
@@ -31,12 +33,16 @@ const OperationForm = ({
   setValue,
   isSaving,
   editingId,
-  onCancelEdit
+  onCancelEdit,
+  symbolOption,
 }: Props) => {
   return (
     <S.FormWrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         <S.InputGroup>
+          <label htmlFor="symbol">Ativo:</label>
+          <Select options={symbolOption} {...register("symbol")} />
+
           <S.Label htmlFor="date">Data da operação</S.Label>
           <Input
             type="date"
@@ -45,13 +51,15 @@ const OperationForm = ({
           />
 
           <S.Label htmlFor="typeOperation">Tipo da operação</S.Label>
-          <Select options={typeOperation} {...register("typeOperation")} />
-
+          <Select
+            options={typeOperation}
+            {...register("typeOperation", { valueAsNumber: true })}
+          />
 
           <S.Label htmlFor="unitPrice">Preço unitário</S.Label>
           <Input
             type="text"
-            placeholder="Preço unitário"
+            placeholder="R$"
             onlyNumbers
             value={formatToBRL(watch("unitPrice"))}
             onChange={(e) => {
@@ -60,7 +68,6 @@ const OperationForm = ({
               setValue("unitPrice", intVal);
             }}
           />
-
 
           <S.Label htmlFor="quantity">Quantidade</S.Label>
           <Input
@@ -78,11 +85,10 @@ const OperationForm = ({
             }}
           />
 
-
           <S.Label htmlFor="tradingFee">Taxa de corretagem</S.Label>
           <Input
             type="text"
-            placeholder="Taxa de corretagem"
+            placeholder="R$"
             onlyNumbers
             value={formatToBRL(watch("tradingFee"))}
             onChange={(e) => {
@@ -94,15 +100,17 @@ const OperationForm = ({
         </S.InputGroup>
 
         <S.ButtonGroup>
-          <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}
+          >
             <Button variant="primary" type="submit" disabled={isSaving}>
               {isSaving
                 ? editingId !== null
                   ? "Editando..."
                   : "Salvando..."
                 : editingId !== null
-                  ? "Editar"
-                  : "Executar"}
+                ? "Editar"
+                : "Executar"}
             </Button>
             {editingId !== null && (
               <Button

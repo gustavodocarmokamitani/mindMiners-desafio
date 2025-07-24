@@ -1,15 +1,20 @@
 import type { GridCellParams, GridColDef } from "@mui/x-data-grid";
-import { formatToBRL } from "../../utils/formatters";
+import { formatarDataManual, formatToBRL } from "../../utils/formatters";
 
 export const TransactionTableColumns: GridColDef[] = [
   { field: "id", headerName: "Id", width: 90 },
+  {
+    field: "symbol",
+    headerName: "Ativo",
+    width: 110,
+  },
   {
     field: "date",
     headerName: "Data",
     width: 110,
     valueFormatter: (params) => {
       const date = params;
-      return new Date(date).toLocaleDateString("pt-BR");
+      return formatarDataManual(date);
     },
   },
   {

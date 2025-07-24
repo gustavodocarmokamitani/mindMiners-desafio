@@ -31,10 +31,11 @@ export const Card = styled.div`
   }
 
   .card-column {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-direction: row;
+    gap: 0rem;
+    justify-content: space-around; 
     min-width: 150px;
   }
 
@@ -102,7 +103,7 @@ export const EditButton = styled.span`
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     right: 50px;
-  }  
+  }
 `;
 
 export const DeleteButton = styled.span`
