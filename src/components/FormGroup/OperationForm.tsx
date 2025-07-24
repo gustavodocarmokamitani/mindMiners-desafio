@@ -20,6 +20,7 @@ type Props = {
   setValue: UseFormSetValue<Operation>;
   isSaving?: boolean;
   editingId: number | null;
+  onCancelEdit?: () => void;
 };
 
 const OperationForm = ({
@@ -30,19 +31,24 @@ const OperationForm = ({
   setValue,
   isSaving,
   editingId,
+  onCancelEdit
 }: Props) => {
   return (
     <S.FormWrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         <S.InputGroup>
+          <S.Label htmlFor="date">Data da operação</S.Label>
           <Input
             type="date"
             placeholder="Data da operação"
             {...register("date")}
           />
 
+          <S.Label htmlFor="typeOperation">Tipo da operação</S.Label>
           <Select options={typeOperation} {...register("typeOperation")} />
 
+
+          <S.Label htmlFor="unitPrice">Preço unitário</S.Label>
           <Input
             type="text"
             placeholder="Preço unitário"
@@ -55,6 +61,8 @@ const OperationForm = ({
             }}
           />
 
+
+          <S.Label htmlFor="quantity">Quantidade</S.Label>
           <Input
             type="number"
             placeholder="Quantidade"
@@ -70,6 +78,8 @@ const OperationForm = ({
             }}
           />
 
+
+          <S.Label htmlFor="tradingFee">Taxa de corretagem</S.Label>
           <Input
             type="text"
             placeholder="Taxa de corretagem"
@@ -84,15 +94,27 @@ const OperationForm = ({
         </S.InputGroup>
 
         <S.ButtonGroup>
-          <Button variant="primary" type="submit" disabled={isSaving}>
-            {isSaving
-              ? editingId !== null
-                ? "Editando..."
-                : "Salvando..."
-              : editingId !== null
-              ? "Editar"
-              : "Executar"}
-          </Button>
+          <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+            <Button variant="primary" type="submit" disabled={isSaving}>
+              {isSaving
+                ? editingId !== null
+                  ? "Editando..."
+                  : "Salvando..."
+                : editingId !== null
+                  ? "Editar"
+                  : "Executar"}
+            </Button>
+            {editingId !== null && (
+              <Button
+                variant="secondary"
+                type="button"
+                disabled={isSaving}
+                onClick={onCancelEdit}
+              >
+                Cancelar
+              </Button>
+            )}
+          </div>
         </S.ButtonGroup>
       </form>
     </S.FormWrapper>
