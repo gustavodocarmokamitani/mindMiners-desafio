@@ -1,5 +1,3 @@
-// src/utils/calculator.ts
-
 import type { Operation } from "../models/Operation";
 import type { StockCalculationState } from "../models/StockCalculationState";
 
@@ -10,7 +8,7 @@ export type AllStockStates = {
 // Tipo para os dados do gráfico de IR, incluindo PM, QM e PA no momento da venda
 export interface TaxChartData {
   name: string; // Nome da barra, ex: "PETR4 - Venda #1"
-  valor: number; // Valor do IR (já em centavos)
+  value: number; // Valor do IR (já em centavos)
   averagePrice: number; // PM no momento da venda
   averageQuantity: number; // QM no momento da venda (após a venda)
   accumulatedLoss: number; // PA no momento da venda (após a compensação da venda atual)
@@ -64,13 +62,6 @@ export function calculateAllStockStates(
     const qv = operation.quantity; // Quantidade vendida
     const tv = operation.tradingFee / 100; // Taxa de Corretagem em R$
 
-    if (qv > state.averageQuantity) {
-      // Aviso se tentar vender mais do que tem
-      console.warn(
-        `Atenção: Tentativa de vender ${qv} de ${operation.symbol}, mas você só tem ${state.averageQuantity}.`
-      );
-    }
-
     // Resultado Auferido (Lucro/Prejuízo da operação)
     const ra = (pv - state.averagePrice) * qv - tv;
     state.averageQuantity -= qv; // Atualiza a Quantidade Média (reduzindo)
@@ -119,7 +110,7 @@ export function calculateAllStockStates(
         const formattedDate = operation.date.slice(5, 10).replace("-", "/");
         taxChartData.push({
           name: `${operation.symbol} - ${formattedDate} - Venda #${operation.id}`, // <-- ALTERAÇÃO AQUI
-          valor: parseFloat(ir.toFixed(2)) * 100, // IR em centavos para o gráfico
+          value: parseFloat(ir.toFixed(2)) * 100, // IR em centavos para o gráfico
           averagePrice: pmAtSale, // PM no momento da venda
           averageQuantity: qmAtSale, // QM no momento da venda (já ajustada)
           accumulatedLoss: state.accumulatedLoss, // PA no momento da venda (já compensado)

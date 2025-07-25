@@ -5,7 +5,7 @@ export function formatToBRL(value: number | string) {
     style: "currency",
     currency: "BRL",
   });
-};
+}
 
 export function formatLargeNumber(value: number) {
   if (value >= 1e9) return (value / 1e9).toFixed(1) + "B";
@@ -14,7 +14,7 @@ export function formatLargeNumber(value: number) {
   return value.toString();
 }
 
-export function formatarDataManual(dateStr: string) {
-  const [ano, mes, dia] = dateStr.split("-");
-  return `${dia}/${mes}/${ano}`;
+export function formatDateManually(dateStr: string) {
+  const [year, month, day] = dateStr.split("-");
+  return `${day}/${month}/${year}`;
 }

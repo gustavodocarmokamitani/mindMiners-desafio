@@ -1,35 +1,40 @@
-import OperationForm from "../../components/FormGroup/OperationForm";
-import TransactionTable from "../../components/DataGrid/TransactionTable";
-import { useIsMobile } from "../../hooks/useIsMobile";
-import { confirmAlert } from "react-confirm-alert";
-import * as S from "../pages.styles";
-import { CardList } from "../../components/CardList/CardList";
-import type { Operation } from "../../models/Operation";
-import type { Option } from "../../models/Option";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Button } from "../../components/Button/Button";
-import { fetchStockList } from "../../api/brapi";
+import { confirmAlert } from "react-confirm-alert";
+
+import type { Operation } from "../../models/Operation";
+import type { Option } from "../../models/Option";
+
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { fetchStockList } from "../../service/brapi";
 import { validateSale } from "../../utils/validateSale";
+
+import OperationForm from "../../components/OperationForm/OperationForm";
+import TransactionTable from "../../components/TransactionTable/TransactionTable";
+import { CardList } from "../../components/CardList/CardList";
+import { Button } from "../../components/Button/Button";
+
+import * as S from "../pages.styles"; 
 
 function Home() {
   const isMobile = useIsMobile();
   const nextId = useRef(1);
 
-  const [editingId, setEditingId] = useState<number | null>(null);
   const [operations, setOperations] = useState<Operation[]>(
     JSON.parse(localStorage.getItem("operations") || "[]")
   );
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [isSaving, setIsSaving] = useState(false);
   const [symbolOption, setSymbolOption] = useState<Option[]>(() => {
     const cached = localStorage.getItem("symbolOption");
     return cached ? JSON.parse(cached) : [];
   });
 
-  const { register, handleSubmit, watch, setValue, reset } = useForm<Operation>(
-    {
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const { register, handleSubmit, setValue, reset, control } =
+    useForm<Operation>({
       defaultValues: {
         date: "",
         typeOperation: 1,
@@ -38,8 +43,7 @@ function Home() {
         tradingFee: 0,
         symbol: "",
       },
-    }
-  );
+    });
 
   useEffect(() => {
     const saved = localStorage.getItem("operations");
@@ -177,6 +181,7 @@ function Home() {
       setOperations(updated);
       toast.success("Operação editada com sucesso!");
       setEditingId(null);
+      setSelectedIds([]);
     } else {
       // Criando nova operação
       const newOperation = {
@@ -186,6 +191,7 @@ function Home() {
       setOperations((prev) => [...prev, newOperation]);
       nextId.current += 1;
       toast.success("Operação salva com sucesso!");
+      setSelectedIds([]);
     }
 
     setTimeout(() => {
@@ -202,10 +208,12 @@ function Home() {
 
     setOperations((prev) => prev.filter((op) => !ids.includes(op.id)));
     toast.error("Operações apagadas.");
+    setSelectedIds([]);
   };
 
   const deleteSingleOperation = (id: number) => {
     deleteOperations([id]);
+    setSelectedIds([]);
   };
 
   return (
@@ -222,8 +230,8 @@ function Home() {
               register={register}
               handleSubmit={handleSubmit}
               onSubmit={onSubmit}
-              watch={watch}
               setValue={setValue}
+              control={control}
               isSaving={isSaving}
               editingId={editingId}
               onCancelEdit={() => {
@@ -240,29 +248,29 @@ function Home() {
                 <S.SectionTitle>Histórico de Transações</S.SectionTitle>
                 <div style={{ display: "flex", gap: "1rem" }}>
                   {!isMobile && (
-                    <Button
-                      variant="warning"
-                      onClick={handleEditClick}
-                      title="Editar operação"
-                      disabled={selectedIds.length === 1 ? false : true}
-                    >
-                      Editar
-                    </Button>
-                  )}
-                  {!isMobile && (
-                    <Button
-                      variant="danger"
-                      onClick={() => {
-                        if (selectedIds.length === 0) {
-                          toast.warning("Nenhuma operação selecionada.");
-                          return;
-                        }
-                        confirmDeleteOperations(selectedIds);
-                      }}
-                      title="Apagar operações"
-                    >
-                      Apagar
-                    </Button>
+                    <>
+                      <Button
+                        variant="warning"
+                        onClick={handleEditClick}
+                        title="Editar operação"
+                        disabled={selectedIds.length === 1 ? false : true}
+                      >
+                        Editar
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          if (selectedIds.length === 0) {
+                            toast.warning("Nenhuma operação selecionada.");
+                            return;
+                          }
+                          confirmDeleteOperations(selectedIds);
+                        }}
+                        title="Apagar operações"
+                      >
+                        Apagar
+                      </Button>
+                    </>
                   )}
                 </div>
               </S.RowBetween>
@@ -275,6 +283,7 @@ function Home() {
               ) : (
                 <TransactionTable
                   data={operations}
+                  selectedIds={selectedIds}
                   onSelectionChange={setSelectedIds}
                 />
               )}

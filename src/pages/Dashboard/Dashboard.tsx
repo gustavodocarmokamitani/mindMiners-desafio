@@ -1,7 +1,5 @@
-// Dashboard.tsx
-
 import { useEffect, useState } from "react";
-import * as S from "../pages.styles";
+
 import {
   BarChart,
   Bar,
@@ -11,33 +9,29 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
+
 import type { Operation } from "../../models/Operation";
-import {
-  calculateAllStockStates,
-  type CalculationResults,
-  type TaxChartData,
-} from "../../utils/calculator";
+import type { CalculationResults, TaxChartData } from "../../utils/calculator";
+
+import { calculateAllStockStates } from "../../utils/calculator";
+
 import { useIsMobile } from "../../hooks/useIsMobile";
+
+import * as S from "../pages.styles";
+import * as D from "./Dashboard.styles";
 
 // Componente customizado para o Tooltip
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     const data: TaxChartData = payload[0].payload; // Obtém os dados completos da barra
     return (
-      <div
-        style={{
-          backgroundColor: "#fff",
-          border: "1px solid #ccc",
-          padding: "10px",
-          borderRadius: "5px",
-        }}
-      >
+      <D.TooltipContainer>
         <p>
           <strong>{label}</strong>
         </p>
         <p>
           IR Devido:{" "}
-          {(data.valor / 100).toLocaleString("pt-BR", {
+          {(data.value / 100).toLocaleString("pt-BR", {
             style: "currency",
             currency: "BRL",
           })}
@@ -45,18 +39,19 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         <p>Preço Médio (PM): R$ {data.averagePrice.toFixed(2)}</p>
         <p>Quantidade Média (QM): {data.averageQuantity}</p>
         <p>Prejuízo Acumulado (PA): {data.accumulatedLoss.toFixed(2)}</p>
-      </div>
+      </D.TooltipContainer>
     );
   }
   return null;
 };
 
 function Dashboard() {
-   const isMobile = useIsMobile();
-  const [operations, setOperations] = useState<Operation[]>(() => {
+  const isMobile = useIsMobile();
+  const [operations] = useState<Operation[]>(() => {
     const saved = localStorage.getItem("operations");
     return saved ? JSON.parse(saved) : [];
   });
+console.log(operations);
 
   const [calculationResults, setCalculationResults] =
     useState<CalculationResults>({
@@ -69,7 +64,7 @@ function Dashboard() {
     setCalculationResults(results);
   }, [operations]);
 
-  const irPorVenda = calculationResults.taxChartData;
+  const irPerSale = calculationResults.taxChartData;
 
   return (
     <S.Container>
@@ -77,29 +72,43 @@ function Dashboard() {
         <p>Você ainda não possui operações registradas.</p>
       ) : (
         <>
-          <h2>Imposto de Renda por Venda</h2>
-          {irPorVenda.length > 0 ? (
-            <ResponsiveContainer width={isMobile ? "100%" : "80%"}  height={400}>
-              <BarChart data={irPorVenda}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis
-                  width={100}
-                  tickFormatter={(value: number) =>
-                    (value / 100).toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    })
-                  }
-                />
-                <Tooltip content={<CustomTooltip />} />{" "}
-                {/* Usa o componente customizado */}
-                <Bar dataKey="valor" fill="#ff7300" barSize={80} />
-              </BarChart>
-            </ResponsiveContainer>
-          ) : (
-            <p>Nenhum Imposto de Renda a ser pago registrado.</p>
-          )}
+          <D.ChartWrapper>
+            {irPerSale.length > 0 ? (
+              <>
+                <h2>Imposto de Renda por Venda</h2>
+                <ResponsiveContainer
+                  width={isMobile ? "100%" : "90%"}
+                  height={450}
+                >
+                  <BarChart data={irPerSale}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis
+                      dataKey="name"
+                      style={{ fontSize: isMobile ? 12 : 16 }}
+                    />
+                    <YAxis
+                      style={{ fontSize: isMobile ? 12 : 16 }}
+                      width={100}
+                      tickFormatter={(value: number) =>
+                        (value / 100).toLocaleString("pt-BR", {
+                          style: "currency",
+                          currency: "BRL",
+                        })
+                      }
+                    />
+                    <Tooltip content={<CustomTooltip />} />{" "}
+                    <Bar
+                      dataKey="value"
+                      fill="#ff7300"
+                      barSize={isMobile ? 20 : 40}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </>
+            ) : (
+              <p>Nenhum Imposto de Renda a ser pago registrado.</p>
+            )}
+          </D.ChartWrapper>
         </>
       )}
     </S.Container>
