@@ -2,12 +2,12 @@ import { useState } from "react";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { ptBR } from "@mui/x-data-grid/locales";
-
-import { TransactionTableColumns } from "../../constants/TransactionTableColumns";
+ 
 
 import type { GridPaginationModel } from "@mui/x-data-grid";
 import type { Operation } from "../../models/Operation";
 import type { SelectionModel } from "../../models/SelectionModel";
+import { transactionTableColumns } from "../../constants/transactionTableColumns";
 
 interface TransactionTableProps {
   data: Operation[];
@@ -73,7 +73,7 @@ export default function TransactionTable({
         getRowId={(row: Operation) => row.id}
         rowSelectionModel={gridSelectionModel}
         rows={data}
-        columns={TransactionTableColumns}
+        columns={transactionTableColumns}
         localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
         pagination
         paginationModel={paginationModel}

@@ -1,7 +1,7 @@
 import type { GridCellParams, GridColDef } from "@mui/x-data-grid";
 import { formatDateManually, formatToBRL } from "../utils/formatters";
 
-export const TransactionTableColumns: GridColDef[] = [
+export const transactionTableColumns: GridColDef[] = [
   { field: "id", headerName: "Id", width: 90 },
   {
     field: "symbol",
