@@ -1,69 +1,74 @@
-# React + TypeScript + Vite
+# 📈 Calculadora IR Bolsa
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto desenvolvido como mini-projeto com objetivo de **calcular o Imposto de Renda sobre operações de ações na bolsa de valores**. A aplicação foi construída com **React + TypeScript** e utiliza bibliotecas modernas para formulários, gráficos, tabelas e estilização.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologias
 
-## Expanding the ESLint configuration
+- [React 19](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [MUI (Material UI)](https://mui.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [React Toastify](https://fkhadra.github.io/react-toastify/)
+- [Recharts](https://recharts.org/)
+- [Styled Components](https://styled-components.com/)
+- [React Router DOM](https://reactrouter.com/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🗂 Estrutura de Pastas
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- src/
+- components/    # Componentes reutilizáveis
+- constants/          # Dados mockados ou estáticos
+- hooks/         # Hooks personalizados
+- models/        # Tipagens e interfaces
+- pages/         # Páginas da aplicação (rotas)
+- service/       # Requisições e lógica externa
+- utils/         # Funções utilitárias
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📊 Funcionalidades
+
+- ✅ **CRUD completo de operações** (compra e venda)
+- 📋 **Listagem de operações** em formato de tabela (desktop)
+- 🃏 **Visualização em cards** para dispositivos móveis
+- 📱 **Design responsivo** e **mobile-first**
+- 📈 Exibição gráfica dos dados com **Recharts**
+- 💡 Cálculo automático de IR com base nas operações
+- ✅ Validações de formulários com **React Hook Form**
+- 🔔 Feedback visual com **React Toastify**
+
+---
+
+## 📦 Scripts Disponíveis
+
+| Comando | Descrição |
+|--------|-----------|
+| `npm run dev` | Inicia o servidor de desenvolvimento com Vite |
+| `npm run build` | Gera a versão de produção do projeto |
+| `npm run preview` | Visualiza a build de produção localmente |
+| `npm run lint` | Executa o linter para encontrar problemas de código |
+
+---
+
+## 💡 Instalação
+
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/calculadora-ir-bolsa.git
+
+# Acesse o diretório
+cd calculadora-ir-bolsa
+
+# Instale as dependências
+npm install
+
+# Inicie o projeto
+npm run dev
+
