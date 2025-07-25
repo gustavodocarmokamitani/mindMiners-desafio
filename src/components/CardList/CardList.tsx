@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import {
   FaCalendarAlt,
   FaDollarSign,
@@ -9,19 +10,24 @@ import {
   FaChevronRight,
   FaCoins,
 } from "react-icons/fa";
+
 import { FiEdit2, FiTrash } from "react-icons/fi";
+
 import { formatToBRL } from "../../utils/formatters";
+
 import type { Operation } from "../../models/Operation";
+
 import * as S from "./CardList.styles";
+
+const ITEMS_PER_PAGE = 4;
 
 interface CardListProps {
   data: Operation[];
-  onDelete: (ids: number) => void;
+  onDelete: (id: number) => void;
   onEdit: (id: number) => void;
 }
 
 export const CardList = ({ data, onDelete, onEdit }: CardListProps) => {
-  const ITEMS_PER_PAGE = 4;
   const [currentPage, setCurrentPage] = useState(1);
 
   const sortedData = [...data].sort((a, b) => b.id - a.id);
@@ -56,6 +62,7 @@ export const CardList = ({ data, onDelete, onEdit }: CardListProps) => {
                 <FaCoins style={{ marginRight: "6px", color: "0059dd" }} />
                 <strong>Ativo:</strong> {item.symbol}
               </p>
+
               <p>
                 <FaCalendarAlt
                   style={{ marginRight: "6px", color: "0059dd" }}
@@ -72,6 +79,7 @@ export const CardList = ({ data, onDelete, onEdit }: CardListProps) => {
                 <strong>Tipo:</strong>{" "}
                 {item.typeOperation === 1 ? "Compra" : "Venda"}
               </p>
+
               <p>
                 <FaDollarSign style={{ marginRight: "6px", color: "0059dd" }} />
                 <strong>Preço:</strong> {formatToBRL(item.unitPrice)}
@@ -82,6 +90,7 @@ export const CardList = ({ data, onDelete, onEdit }: CardListProps) => {
                 <FaBox style={{ marginRight: "6px", color: "0059dd" }} />
                 <strong>Quantidade:</strong> {item.quantity}
               </p>
+
               <p>
                 <FaMoneyBillWave
                   style={{ marginRight: "6px", color: "0059dd" }}

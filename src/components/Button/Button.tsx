@@ -3,7 +3,7 @@ import { StyledButton } from "./Button.styles";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "danger" | "warning";
-}
+};
 
 export const Button: React.FC<ButtonProps> = ({
   variant = "primary",

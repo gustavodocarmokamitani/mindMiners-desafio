@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-  background: linear-gradient(270deg,#fff,#f6f9fe);
-  padding: 0 2rem;
+  background: linear-gradient(270deg, #fff, #f6f9fe);
+  padding: 5rem 2rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
