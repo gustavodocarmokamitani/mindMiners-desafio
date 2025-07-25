@@ -51,8 +51,7 @@ function Dashboard() {
   const [operations] = useState<Operation[]>(() => {
     const saved = localStorage.getItem("operations");
     return saved ? JSON.parse(saved) : [];
-  });
-console.log(operations);
+  }); 
 
   const [calculationResults, setCalculationResults] =
     useState<CalculationResults>({
