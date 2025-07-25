@@ -19,9 +19,10 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 
 import * as S from "../pages.styles";
 import * as D from "./Dashboard.styles";
+import type { CustomTooltipProps } from "../../models/CustomTooltip";
 
 // Componente customizado para o Tooltip
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     const data: TaxChartData = payload[0].payload; // Obtém os dados completos da barra
     return (

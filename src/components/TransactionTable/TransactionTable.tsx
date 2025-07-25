@@ -3,9 +3,11 @@ import { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { ptBR } from "@mui/x-data-grid/locales";
 
-import { TransactionTableColumns } from "../../data/TransactionTableColumns";
+import { TransactionTableColumns } from "../../constants/TransactionTableColumns";
+
 import type { GridPaginationModel } from "@mui/x-data-grid";
 import type { Operation } from "../../models/Operation";
+import type { SelectionModel } from "../../models/SelectionModel";
 
 interface TransactionTableProps {
   data: Operation[];
@@ -24,12 +26,12 @@ export default function TransactionTable({
   });
 
   const gridSelectionModel = {
-    type: "include" as "include",
+    type: "include",
     ids: new Set(selectedIds),
-  };
+  } as const;
 
   const handleRowSelectionChange = (
-    newSelectionModel: any,
+    newSelectionModel: SelectionModel,
     data: { id: number }[],
     onSelectionChange?: (selectedIds: number[]) => void
   ) => {
@@ -39,19 +41,22 @@ export default function TransactionTable({
       selectedIds = newSelectionModel.map((id) => Number(id));
     } else {
       switch (newSelectionModel.type) {
-        case "include":
+        case "include": {
           selectedIds = Array.from(newSelectionModel.ids).map((id) =>
             Number(id)
           );
           break;
-        case "exclude":
+        }
+        case "exclude": {
           const allIds = data.map((row) => row.id);
           selectedIds = allIds.filter((id) => !newSelectionModel.ids.has(id));
           break;
+        }
         default:
           selectedIds = [];
       }
     }
+
     onSelectionChange?.(selectedIds);
   };
 

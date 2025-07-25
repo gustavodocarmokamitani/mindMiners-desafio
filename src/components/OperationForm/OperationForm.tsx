@@ -9,7 +9,7 @@ import {
 import type { Operation } from "../../models/Operation";
 import type { Option } from "../../models/Option";
 
-import { typeOperation } from "../../data/typeOperation";
+import { typeOperation } from "../../constants/typeOperation";
 import { formatToBRL } from "../../utils/formatters";
 
 import { Button } from "../Button/Button";

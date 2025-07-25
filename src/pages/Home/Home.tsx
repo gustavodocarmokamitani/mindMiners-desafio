@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
@@ -15,7 +15,7 @@ import TransactionTable from "../../components/TransactionTable/TransactionTable
 import { CardList } from "../../components/CardList/CardList";
 import { Button } from "../../components/Button/Button";
 
-import * as S from "../pages.styles"; 
+import * as S from "../pages.styles";
 
 function Home() {
   const isMobile = useIsMobile();
@@ -45,6 +45,20 @@ function Home() {
       },
     });
 
+  const handleSearch = useCallback(async () => {
+    if (symbolOption.length > 0) return;
+    const result = await fetchStockList();
+    if (Array.isArray(result)) {
+      const sorted = result.sort((a, b) => a.stock.localeCompare(b.stock));
+      const options = sorted.map((stock) => ({
+        value: stock.stock,
+        label: stock.stock,
+      }));
+      setSymbolOption(options);
+      localStorage.setItem("symbolOption", JSON.stringify(options));
+    }
+  }, [symbolOption]);
+
   useEffect(() => {
     const saved = localStorage.getItem("operations");
     if (saved) {
@@ -57,25 +71,11 @@ function Home() {
     }
 
     handleSearch();
-  }, []);
+  }, [handleSearch]);
 
   useEffect(() => {
     localStorage.setItem("operations", JSON.stringify(operations));
   }, [operations]);
-
-  const handleSearch = async () => {
-    if (symbolOption.length > 0) return;
-    const result = await fetchStockList();
-    if (Array.isArray(result)) {
-      const sorted = result.sort((a, b) => a.stock.localeCompare(b.stock));
-      const options = sorted.map((stock) => ({
-        value: stock.stock,
-        label: stock.stock,
-      }));
-      setSymbolOption(options);
-      localStorage.setItem("symbolOption", JSON.stringify(options));
-    }
-  };
 
   const confirmDeleteOperations = (ids: number[]) => {
     confirmAlert({
